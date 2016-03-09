@@ -1,3 +1,13 @@
+#2015/12/17忽略大文件夹
+/edgebox-contour-neumann三种检测方法的比较/*
+/models/*
+/piotr_toolbox/*
+/private/*
+
+*.jpg
+*.txt
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
