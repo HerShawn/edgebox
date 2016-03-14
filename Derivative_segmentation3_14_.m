@@ -25,7 +25,7 @@ dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
 
 
-for indexImg = 56:56
+for indexImg = 1:1
     
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
@@ -65,28 +65,28 @@ for indexImg = 56:56
     col=sum(edgebox_hx);
     
     
-    figure(indexImg);
-    
-    subplot(2,2,1);
-    imshow(g);
-    
-    subplot(2,2,2);
-    [x,y]=meshgrid(1:1:wid,1:1:len);
-    mesh(double(x),double(y),double(edgebox_hx));
-    xlabel('x');
-    ylabel('y');
-    
-    subplot(2,2,3);
-    plot(row);
-    
-    subplot(2,2,4);
-    plot(col);
+%     figure(indexImg);
+%     
+%     subplot(2,2,1);
+%     imshow(g);
+%     
+%     subplot(2,2,2);
+%     [x,y]=meshgrid(1:1:wid,1:1:len);
+%     mesh(double(x),double(y),double(edgebox_hx));
+%     xlabel('x');
+%     ylabel('y');
+%     
+%     subplot(2,2,3);
+%     plot(row);
+%     
+%     subplot(2,2,4);
+%     plot(col);
     
     
     %     save_name=[img_value '.jpg'];
     %     print(indexImg, '-dpng', save_name);
     
-    figure(indexImg+1);
+    figure(indexImg);
     
     s(1)=subplot(3,2,1);
     plot(row);
@@ -118,7 +118,8 @@ for indexImg = 56:56
     plot(row5);
     title(s(6),'sgolay·½·¨');
  
-    
+    save_name=[img_value '.jpg'];
+    print(indexImg, '-dpng', save_name);
     
     
     
