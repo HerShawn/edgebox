@@ -5,6 +5,7 @@ close all
 
 
 addpath('piotr_toolbox');
+addpath(genpath(pwd));
 
 %% Parameters for EdgeBox
 model=load('models/forest/modelBsds'); model=model.model;
@@ -23,7 +24,7 @@ dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
 
 
-for indexImg = 1:num_img
+for indexImg = 1:1
     
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
