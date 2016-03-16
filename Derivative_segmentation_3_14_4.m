@@ -25,7 +25,7 @@ dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
 
 
-for indexImg = 118:118
+for indexImg = 25:25
     
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
@@ -119,8 +119,7 @@ for indexImg = 118:118
     b1=b_temp1(find(b_temp1<=idx1));
     
     figure(indexImg+2);
-    imshow(g);
-    hold on;
+    
     ones1=ones(length(b),wid);
     for i=1:length(b)
         ones1(1:wid,i)=b(i);
@@ -131,12 +130,17 @@ for indexImg = 118:118
         ones2(1:wid,i)=b1(i);
     end
     
-    ones3=[ones1,ones2];
+%     ones3=[ones1,ones2];
+%     ones3=[ones2];
+    subplot(1,2,1);imshow(g);
+    hold on;plot(ones1,'r-');
+    subplot(1,2,2);imshow(g);
+    hold on;plot(ones2,'g-');
     
-    plot(ones3,'r-');
     
-    
-    
+%      figure(indexImg+3);
+%     z_s=smooth(z,45,'lowess');
+%     plot(z_s);
     
     
     
