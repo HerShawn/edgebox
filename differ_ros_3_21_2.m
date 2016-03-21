@@ -17,7 +17,7 @@ opts.maxBoxes = 1e4;  % max number of boxes to detect
 do_dir='D:\release\edgebox\edgebox-contour-neumann三种检测方法的比较\';
 dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
-for indexImg = 19:19
+for indexImg = 1:num_img
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
     img_name = [do_dir 'Challenge2_Test_Task12_Images\' img_value '.jpg'];
@@ -72,7 +72,7 @@ for indexImg = 19:19
 %     plot(z_tmp,'r');hold on;
     
     %% 滑动窗滤除噪音
-    windowSize=25;
+    windowSize=round(len/20.0);
     z_final=zeros(1, length(z_tmp));
     for i=1:length(z_tmp)
         if  z_tmp(i) == max(z_tmp(max(1,i-windowSize):min(length(z_tmp), i+windowSize)))
