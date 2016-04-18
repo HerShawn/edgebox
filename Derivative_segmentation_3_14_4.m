@@ -25,7 +25,7 @@ dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
 
 
-for indexImg = 25:25
+for indexImg = 122:122
     
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
@@ -142,6 +142,7 @@ for indexImg = 25:25
 %     z_s=smooth(z,45,'lowess');
 %     plot(z_s);
     
-    
+     save_name=[img_value '.jpg'];
+    print(indexImg+2, '-dpng', save_name);
     
 end

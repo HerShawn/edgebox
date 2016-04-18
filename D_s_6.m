@@ -25,7 +25,7 @@ dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
 
 
-for indexImg = 118:118
+for indexImg = 1:1
     
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
@@ -151,8 +151,8 @@ for indexImg = 118:118
      zones3=[zones1,zones2];
      
      
-    subplot(1,2,1);imshow(g);hold on;plot(ones3,'g-');
-    subplot(1,2,2);imshow(g);hold on;plot(zones3,'g-');
+    subplot(1,2,2);imshow(g);hold on;plot(ones3,'g-');
+    subplot(1,2,1);imshow(g);hold on;plot(zones3,'g-');
     save_name=[img_value '.jpg'];
     print(indexImg, '-dpng', save_name);
  

@@ -17,14 +17,14 @@ opts.minScore = .01;  % min score of boxes to detect
 opts.maxBoxes = 1e4;  % max number of boxes to detect
 
 %%
-do_dir='D:\release\edgebox-contour-neumann三种检测方法的比较\';
+do_dir='D:\release\edgebox\edgebox-contour-neumann三种检测方法的比较\';
 dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 
 
 num_img = length(dir_img);
 
 
-for indexImg = 1:num_img
+for indexImg = 122:122
     
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
@@ -44,7 +44,7 @@ for indexImg = 1:num_img
     
     
     tic, bbs=edgeBoxes(g,model,opts); toc
-    bbs=bbs(1:128,:);
+    bbs=bbs(1:8,:);
     bbs=sortrows(bbs,-5);
     
     figure(indexImg);

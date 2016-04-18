@@ -16,7 +16,7 @@ opts.minScore = .01;  % min score of boxes to detect
 opts.maxBoxes = 1e4;  % max number of boxes to detect
 
 %%
-do_dir='D:\release\edgebox-contour-neumann三种检测方法的比较\';
+do_dir='D:\release\edgebox\edgebox-contour-neumann三种检测方法的比较\';
 dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 % save_dir = 'D:\hx\数据\Train_Data\';
 
@@ -24,7 +24,7 @@ num_img = length(dir_img);
 % for file_num =1:233
 % for indexImg = 166:num_img
  
-for indexImg = 1:num_img
+for indexImg = 193:193
 %     disp(['第' num2str(indexImg+99) '张图']);
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
@@ -49,7 +49,7 @@ for indexImg = 1:num_img
    g = imread(img_name);
     [len,wid,~] = size(g);
     tic, bbs=edgeBoxes(g,model,opts); toc
-     bbs=bbs(1:100,:);
+     bbs=bbs(1:128,:);
 %     Gt_Path =['D:\hx\数据\icdar2011\train\train-textloc\gt_' img_value '.mat'];
 %     load(Gt_Path);
 

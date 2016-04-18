@@ -1,4 +1,4 @@
-%% (3） 检测算法
+%% (3） 检测算法：statistic edgebox;binary tree search（横向和纵向）
 
 clc
 clear
@@ -17,7 +17,9 @@ opts.maxBoxes = 1e4;  % max number of boxes to detect
 do_dir='D:\release\edgebox\edgebox-contour-neumann三种检测方法的比较\';
 dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
-for indexImg = 19:19
+for indexImg = 190:190
+    
+    %构建边缘响应统计图：一种特征转换方法，在边缘响应统计这个特征空间中，文字与非文字的特征区别突出，易分类
     img_value = dir_img(indexImg).name;
     img_value = img_value(1:end-4);
     img_name = [do_dir 'Challenge2_Test_Task12_Images\' img_value '.jpg'];
@@ -37,27 +39,17 @@ for indexImg = 19:19
         edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
     end
     
-    
-    figure(indexImg);
-  
-    %三维图
-    subplot(2,2,1);
-    [x,y]=meshgrid(1:1:wid,1:1:len);
-    mesh(double(x),double(y),double(edgebox_hx));
-    xlabel('x');
-    ylabel('y');
-
+    %计算梯度：目的是在边缘响应统计图上，从背景中定位出文字
     row=sum(edgebox_hx,2);
-    row_max=max(row);
-    
+    row_max=max(row);    
     x = 1:1:size(row,1);
     y = row;
     for i=1:length(x)-1
         z(i) = (y(i+1)-y(i))/(x(i+1)-x(i));
-    end
-    
+    end   
     z_max=max(z);
     
+    %归一化，便于观察和实验
     for i=1:length(x)-1
         z1(i)=z(i)*(row_max/z_max)*3.5;
         z1(i)=z1(i)*(row(i)/row_max);
@@ -79,35 +71,66 @@ for indexImg = 19:19
         end
     end
     
-    %行图及分割点
-    subplot(2,2,2);
-    plot(row,'b');hold on;
-    plot(z_final,'r');hold on;
     
     %结果图
     [m,n]=findpeaks(z_final);
-    ones1=ones(length(n),wid);
+    ones1=zeros(length(n),wid);
     for i=1:length(n)
         ones1(1:wid,i)=n(i);
     end
-    subplot(2,2,3);imshow(g);hold on;plot(ones1,'r');
+%     subplot(2,2,3);imshow(g);hold on;plot(ones1,'r');
+    imshow(g);hold on;
+    plot(ones1,'r');
     
     %% 3.21~3.22做的检测算法
     %1。将row_peak从小到大排列
+    row_peak=zeros(2,length(n));
+    for i=1:length(n)
+        row_peak(1,i)=n(i);
+        row_peak(2,i)=m(i);
+    end    
+    [~,idx]=sort(row_peak(2,:));
+    row_peak(1,:)=row_peak(1,idx);
+    row_peak(2,:)=row_peak(2,idx);
     
-    %2。若（最小peak在最外&&最小peak<（最大peak/20）,删此peak；
-    %迭代此过程，直至次小peak不在最外层，或不小于peak/20；
-    
-    %3。分row，给各row画col分割线（一般就是最左、右线和单词间隔线）；
-    %
+    %2。取peak最高的前4个peak(end-4:end)
+    %删掉前四peak包裹之外的peak；   
+    for i=1:size(row_peak,2)
+        if (row_peak(1,i)<min(row_peak(1,end-3:end))||...
+                row_peak(1,i)>max(row_peak(1,end-3:end)))
+        row_peak(1,i)=-1;
+        end
+    end  
+    %2.1。此范围外的peak全删；
+    row_peak(:,find(row_peak(1,:)<0))=[];
+    %2.2。二叉树的行分割算法：
+     [~,idx1]=sort(row_peak(1,:));
+    peak(1,:)=row_peak(1,idx1);
+    peak(2,:)=row_peak(2,idx1);
+  
+%     row_table=zeros(size(peak(1,2:end-1),2),3);
+    %大概table_len和node_idx都不用了吧？
+%    global table_len;
+    global row_table;
+    global node_idx;
+%    table_len=size(peak(1,2:end-1),2);  
+    table_len=(length(peak)-2)+(length(peak)-1);
+    row_table=zeros(table_len,4);
+    node_idx=1;       
+    bt_row_seg(peak);
+   
+    do_table=zeros(length(peak)-2,3);
+    do_table=bt_row_seg2(do_table);
     
     %%
     
-    save_name=[img_value '.jpg'];
-    print(indexImg, '-dpng', save_name);
-    clear row;
-    clear z1;
-    clear z_tmp;
-    clear z;
-    close(figure(indexImg));
+%     save_name=[img_value '.jpg'];
+%     print(indexImg, '-dpng', save_name);
+%     clear row;
+%     clear z1;
+%     clear z_tmp;
+%     clear z;
+%     clear ones1;
+%     clear ones2;
+%     close(figure(indexImg));
 end
