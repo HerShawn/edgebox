@@ -1,7 +1,7 @@
 function do_table=bt_row_seg2(do_table)
     global row_table;
 
-    for i=1:length(do_table)      
+    for i=1:size(do_table,1)      
        root=find(row_table(:,4)==min(row_table(find(row_table(:,4)>0),4))); 
        do_table(i,3)=root;
        

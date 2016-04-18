@@ -13,6 +13,18 @@ function bt_row_seg(peak)
 %         return;
 %     end
 
+    if length(peak(1,:))==2
+        left=peak(1,1);
+        right=peak(1,end);
+        value=0;
+        row_table(node_idx,1)=node_idx;
+        row_table(node_idx,2)=left;
+        row_table(node_idx,3)=right;
+        row_table(node_idx,4)=value;
+        node_idx=node_idx+1;
+        return;
+    end
+
     left=peak(1,1);
     right=peak(1,end);
     value=max(peak(2,2:end-1));
@@ -44,6 +56,8 @@ function bt_row_seg(peak)
          return;
     end
 
+   
+    
 
     [~,peak_seg]=max(peak(2,2:end-1));
     peak_seg1=peak(:,1:(peak_seg+1));

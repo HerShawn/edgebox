@@ -17,7 +17,7 @@ opts.maxBoxes = 1e4;  % max number of boxes to detect
 do_dir='D:\release\edgebox\edgebox-contour-neumann三种检测方法的比较\';
 dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
-for indexImg = 15:15
+for indexImg = 155:155
     
     %构建边缘响应统计图：一种特征转换方法，在边缘响应统计这个特征空间中，文字与非文字的特征区别突出，易分类
     img_value = dir_img(indexImg).name;
@@ -95,12 +95,14 @@ for indexImg = 15:15
     
     %2。取peak最高的前4个peak(end-4:end)
     %删掉前四peak包裹之外的peak；   
-    for i=1:size(row_peak,2)
-        if (row_peak(1,i)<min(row_peak(1,end-3:end))||...
-                row_peak(1,i)>max(row_peak(1,end-3:end)))
-        row_peak(1,i)=-1;
+    if size(row_peak,2)>4
+        for i=1:size(row_peak,2)
+            if (row_peak(1,i)<min(row_peak(1,end-3:end))||...
+                    row_peak(1,i)>max(row_peak(1,end-3:end)))
+                row_peak(1,i)=-1;
+            end
         end
-    end  
+    end
     %2.1。此范围外的peak全删；
     row_peak(:,find(row_peak(1,:)<0))=[];
     %2.2。二叉树的行分割算法：
