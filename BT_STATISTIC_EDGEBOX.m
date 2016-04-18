@@ -17,7 +17,7 @@ opts.maxBoxes = 1e4;  % max number of boxes to detect
 do_dir='D:\release\edgebox\edgebox-contour-neumann三种检测方法的比较\';
 dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
-for indexImg = 190:190
+for indexImg = 15:15
     
     %构建边缘响应统计图：一种特征转换方法，在边缘响应统计这个特征空间中，文字与非文字的特征区别突出，易分类
     img_value = dir_img(indexImg).name;
@@ -79,8 +79,8 @@ for indexImg = 190:190
         ones1(1:wid,i)=n(i);
     end
 %     subplot(2,2,3);imshow(g);hold on;plot(ones1,'r');
-    imshow(g);hold on;
-    plot(ones1,'r');
+%     imshow(g);hold on;
+%     plot(ones1,'r');
     
     %% 3.21~3.22做的检测算法
     %1。将row_peak从小到大排列
@@ -122,6 +122,37 @@ for indexImg = 190:190
     do_table=zeros(length(peak)-2,3);
     do_table=bt_row_seg2(do_table);
     
+ %定位、识别
+
+    run model_release/matconvnet/matlab/vl_setupnn.m
+    
+    for i=1:size(do_table,1)
+        for j=1:3
+            top=row_table(do_table(i,j),2);
+            bottom=row_table(do_table(i,j),3);
+            im=g(top:bottom,:,1);
+            figure_index=(i-1)*3+j;
+            figure(figure_index);
+            imshow(im);
+            save_name=[num2str(figure_index) '.jpg'];
+            print(figure_index, '-dpng', save_name);
+            close
+            if size(im, 3) > 1, im = rgb2gray(im); end;
+            im = imresize(im, [32, 100]);
+            im = single(im);
+            s = std(im(:));
+            im = im - mean(im(:));
+            im = im / ((s + 0.0001) / 128.0);
+            net = load('dictnet.mat');
+            lexicon = load_nostruct('lex.mat');
+            %     stime = tic;
+            res = vl_simplenn(net, im);
+            %     fprintf('DICT Detection %.2fs\n', toc(stime));
+            [score,lexidx] = max(res(end).x(:));
+            fprintf(' %s\t%f\n', lexicon{lexidx},score);
+            
+        end
+    end
     %%
     
 %     save_name=[img_value '.jpg'];

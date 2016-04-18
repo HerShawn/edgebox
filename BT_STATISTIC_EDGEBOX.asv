@@ -79,8 +79,8 @@ for indexImg = 190:190
         ones1(1:wid,i)=n(i);
     end
 %     subplot(2,2,3);imshow(g);hold on;plot(ones1,'r');
-    imshow(g);hold on;
-    plot(ones1,'r');
+%     imshow(g);hold on;
+%     plot(ones1,'r');
     
     %% 3.21~3.22做的检测算法
     %1。将row_peak从小到大排列
@@ -115,13 +115,38 @@ for indexImg = 190:190
     global node_idx;
 %    table_len=size(peak(1,2:end-1),2);  
     table_len=(length(peak)-2)+(length(peak)-1);
-    row_table=zeros(table_len,3);
+    row_table=zeros(table_len,4);
     node_idx=1;       
     bt_row_seg(peak);
    
-    do_table=z
-    bt_row_seg(peak);
+    do_table=zeros(length(peak)-2,3);
+    do_table=bt_row_seg2(do_table);
     
+ %定位、识别
+
+    run model_release/matconvnet/matlab/vl_setupnn.m
+    
+    for i=1:size(do_table,1)
+        for j=1:3
+            top=do_table(i,j)
+            im=g(do_table(i,j):370,:,1);
+            imshow(im);
+            if size(im, 3) > 1, im = rgb2gray(im); end;
+            im = imresize(im, [32, 100]);
+            im = single(im);
+            s = std(im(:));
+            im = im - mean(im(:));
+            im = im / ((s + 0.0001) / 128.0);
+            net = load('dictnet.mat');
+            lexicon = load_nostruct('lex.mat');
+            %     stime = tic;
+            res = vl_simplenn(net, im);
+            %     fprintf('DICT Detection %.2fs\n', toc(stime));
+            [score,lexidx] = max(res(end).x(:));
+            fprintf(' %s\t%f\n', lexicon{lexidx},score);
+            
+        end
+    end
     %%
     
 %     save_name=[img_value '.jpg'];

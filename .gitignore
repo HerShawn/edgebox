@@ -3,6 +3,7 @@
 /models/*
 /piotr_toolbox/*
 /private/*
+/model_release/*
 
 *.jpg
 *.txt
