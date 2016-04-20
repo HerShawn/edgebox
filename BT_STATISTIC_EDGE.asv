@@ -95,12 +95,14 @@ for indexImg = 190:190
     
     %2。取peak最高的前4个peak(end-4:end)
     %删掉前四peak包裹之外的peak；   
-    for i=1:size(row_peak,2)
-        if (row_peak(1,i)<min(row_peak(1,end-3:end))||...
-                row_peak(1,i)>max(row_peak(1,end-3:end)))
-        row_peak(1,i)=-1;
+    if size(row_peak,2)>4
+        for i=1:size(row_peak,2)
+            if (row_peak(1,i)<min(row_peak(1,end-3:end))||...
+                    row_peak(1,i)>max(row_peak(1,end-3:end)))
+                row_peak(1,i)=-1;
+            end
         end
-    end  
+    end
     %2.1。此范围外的peak全删；
     row_peak(:,find(row_peak(1,:)<0))=[];
     %2.2。二叉树的行分割算法：
@@ -128,22 +130,29 @@ for indexImg = 190:190
     
     for i=1:size(do_table,1)
         for j=1:3
-            top=do_table(i,j)
-            im=g(do_table(i,j):370,:,1);
-            imshow(im);
-            if size(im, 3) > 1, im = rgb2gray(im); end;
-            im = imresize(im, [32, 100]);
-            im = single(im);
-            s = std(im(:));
-            im = im - mean(im(:));
-            im = im / ((s + 0.0001) / 128.0);
-            net = load('dictnet.mat');
-            lexicon = load_nostruct('lex.mat');
-            %     stime = tic;
-            res = vl_simplenn(net, im);
-            %     fprintf('DICT Detection %.2fs\n', toc(stime));
-            [score,lexidx] = max(res(end).x(:));
-            fprintf(' %s\t%f\n', lexicon{lexidx},score);
+            top=row_table(do_table(i,j),2);
+            bottom=row_table(do_table(i,j),3);
+            im=g(top:bottom,:,1);
+            col_b
+%             figure_index=(i-1)*3+j;
+%             figure(figure_index);
+%              imshow(im);
+%             save_name=[num2str(figure_index) '.jpg'];
+%             print(figure_index, '-dpng', save_name);
+%             close
+%             if size(im, 3) > 1, im = rgb2gray(im); end;
+%             im = imresize(im, [32, 100]);
+%             im = single(im);
+%             s = std(im(:));
+%             im = im - mean(im(:));
+%             im = im / ((s + 0.0001) / 128.0);
+%             net = load('dictnet.mat');
+%             lexicon = load_nostruct('lex.mat');
+%             %     stime = tic;
+%             res = vl_simplenn(net, im);
+%             %     fprintf('DICT Detection %.2fs\n', toc(stime));
+%             [score,lexidx] = max(res(end).x(:));
+%             fprintf(' %s\t%f\n', lexicon{lexidx},score);
             
         end
     end

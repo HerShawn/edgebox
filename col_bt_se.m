@@ -1,0 +1,47 @@
+function col_bt_se(g)
+addpath('piotr_toolbox');
+addpath(genpath(pwd));
+%% Parameters for EdgeBox
+model=load('models/forest/modelBsds'); model=model.model;
+model.opts.multiscale=0; model.opts.sharpen=2; model.opts.nThreads=4;
+opts = edgeBoxes;
+opts.alpha = .65;     % step size of sliding window search
+opts.beta  = .75;     % nms threshold for object proposals
+opts.minScore = .01;  % min score of boxes to detect
+opts.maxBoxes = 1e4;  % max number of boxes to detect
+
+[len,wid,~] = size(g);
+edgebox_hx=zeros(len,wid);
+tic, bbs=edgeBoxes(g,model,opts); toc
+bbs=bbs(1:128,:);
+bbs=sortrows(bbs,-5);
+bbs(:,3)=bbs(:,1)+bbs(:,3);
+bbs(:,4)=bbs(:,2)+bbs(:,4);
+weight=[];
+for i=1:128
+    weight=[weight;(64/(8+(i-1)))];
+end
+for i=1:128
+    edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
+end
+
+
+figure(2);
+[cx,cy]=meshgrid(1:1:wid,1:1:len);
+mesh(double(cx),double(cy),double(edgebox_hx));
+xlabel('cx');
+ylabel('cy');
+
+ccol=sum(edgebox_hx,1);
+figure(3);
+plot(ccol);
+% col_max=max(col);
+cx = 1:1:size(ccol,2);
+cy = ccol;
+for i=1:length(ccol)-1
+    cz(i) = (cy(i+1)-cy(i))/(cx(i+1)-cx(i));
+end
+figure(4);
+plot(cz);
+% z_max=max(z);
+end
