@@ -2,16 +2,6 @@ function bt_row_seg(peak)
 %     global table_len;
     global row_table;
     global node_idx;
-    
-%       node_idx=node_idx+1;
-%     
-%     if size(peak(1,:),2)==2
-%         row_idx=floor(node_idx/3)+1;
-%         col_idx=floor(node_idx/table_len)+1;
-%         row_table(row_idx,col_idx)=num2cell(node_idx);
-%         
-%         return;
-%     end
 
     if length(peak(1,:))==2
         left=peak(1,1);
