@@ -33,29 +33,23 @@ colormap gray;
 xlabel('cx');
 ylabel('cy');
 
+for x=1:cx
+   for y=1:cy
+       if edgebox_hx(x,y)>(max(max(edgebox_hx))
+   end
+end    
+
+
 ccol=sum(edgebox_hx,1);
-figure(3);
+figure(4);
 plot(ccol);
 % col_max=max(col);
-% cx = 1:1:size(ccol,2);
-% cy = ccol;
-% for i=1:length(ccol)-1
-%     cz(i) = (cy(i+1)-cy(i))/(cx(i+1)-cx(i));
-% end
+cx = 1:1:size(ccol,2);
+cy = ccol;
+for i=1:length(ccol)-1
+    cz(i) = (cy(i+1)-cy(i))/(cx(i+1)-cx(i));
+end
 % figure(4);
 % plot(cz);
 % z_max=max(z);
-
- max_thresh=0.5*max(max(edgebox_hx));
-% max_thresh=0.5*max(ccol);
-figure(4);
-for x=1:len
-   for y=1:wid
-       if edgebox_hx(x,y)<max_thresh;
-           edgebox_hx(x,y)=0;
-       end
-   end
-end    
-imshow(edgebox_hx);
-
 end
