@@ -19,35 +19,30 @@ bbs=sortrows(bbs,-5);
 bbs(:,3)=bbs(:,1)+bbs(:,3);
 bbs(:,4)=bbs(:,2)+bbs(:,4);
 weight=[];
+
+%【重要参数1】调整权值
+%【使得文字与非文字间差异增强；文字间尽量平稳】
+%【抑制非文字的权值】
 for i=1:size(bbs,1)
 %     weight=[weight;(64/(8+(i-1)))];
-    weight=[weight;1/i];
-end
-for i=1:size(bbs,1)
-    edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
+    weight=[weight;1];
 end
 
+all=size(bbs,1);
+turns=ceil(all/2);
 
-% figure(2);
-% [cx,cy]=meshgrid(1:1:wid,1:1:len);
-% mesh(double(cx),double(cy),double(edgebox_hx));
-% % colormap gray;
-% xlabel('cx');
-% ylabel('cy');
+for j=1:turns
+    for i=max((j-1)*2,1):min(size(bbs,1),j*2)
+        edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
+        ccol=sum(edgebox_hx,1);
+        figure(3);
+        plot(ccol);
+    end
+end
 
-ccol=sum(edgebox_hx,1);
-figure(3);
-plot(ccol);
-% col_max=max(col);
-% cx = 1:1:size(ccol,2);
-% cy = ccol;
-% for i=1:length(ccol)-1
-%     cz(i) = (cy(i+1)-cy(i))/(cx(i+1)-cx(i));
-% end
-% figure(4);
-% plot(cz);
-% z_max=max(z);
 
+%【重要参数2】用均值代替max(max(edgebox_hx))
+%【重要参数3】分割阈值选取；怎样结合：0.2做定位？0.3做分割
  max_thresh=0.1*max(max(edgebox_hx));
 % max_thresh=0.5*max(ccol);
 figure(4);
@@ -92,5 +87,50 @@ for x=1:len
    end
 end    
 imshow(edgebox_hx);
+
+% all=size(bbs,1);
+% turns=ceil(all/5);
+
+% for j=1:5
+%     for i=max((j-1)*turns,1):min(size(bbs,1),j*turns)
+%         edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
+%         ccol=sum(edgebox_hx,1);
+%         figure(3);
+%         plot(ccol);
+%     end
+% end
+
+
+
+% ccol=sum(edgebox_hx,1);
+% figure(3);
+% plot(ccol);
+
+
+% if i==1
+%     edgebox_hx_1=edgebox_hx;
+% end
+% if i==4
+%     edgebox_hx_4=edgebox_hx;
+% end
+% if i==8
+%     edgebox_hx_8=edgebox_hx;
+% end
+% if i==16
+%     edgebox_hx_16=edgebox_hx;
+% end
+% if i==32
+%     edgebox_hx_32=edgebox_hx;
+% end
+% if i==64
+%     edgebox_hx_64=edgebox_hx;
+% end
+% if i==128
+%     edgebox_hx_128=edgebox_hx;
+% end
+% if i==256
+%     edgebox_hx_256=edgebox_hx;
+% end
+
 
 end
