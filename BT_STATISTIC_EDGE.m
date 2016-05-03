@@ -17,7 +17,7 @@ opts.maxBoxes = 1e4;  % max number of boxes to detect
 do_dir='D:\release\edgebox\edgebox-contour-neumann三种检测方法的比较\';
 dir_img = dir([do_dir 'Challenge2_Test_Task12_Images\*.jpg'] );
 num_img = length(dir_img);
-for indexImg = 155:155
+for indexImg = 152:152
     
     %构建边缘响应统计图：一种特征转换方法，在边缘响应统计这个特征空间中，文字与非文字的特征区别突出，易分类
     img_value = dir_img(indexImg).name;
@@ -133,9 +133,10 @@ for indexImg = 155:155
             top=row_table(do_table(i,j),2);
             bottom=row_table(do_table(i,j),3);
             im=g(top:bottom,1:wid,:);
+%             im=[im;im];
             figure(1);
             imshow(im);
-            col_bt_se_t(im);
+            col_bt_se_t1(im);
 %             figure_index=(i-1)*3+j;
 %             figure(figure_index);
              
