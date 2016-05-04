@@ -13,7 +13,17 @@ opts.maxBoxes = 1e4;  % max number of boxes to detect
 [len,wid,~] = size(g);
 edgebox_hx=zeros(len,wid);
 tic, bbs=edgeBoxes(g,model,opts); toc
-bbs=bbs(1:min(128,size(bbs,1)),:);
+size(bbs,1)
+b_num=round(0.1*size(bbs,1))
+% bbs=bbs(1:max(128,size(bbs,1)),:);
+% bbs=bbs(1:b_num,:);
+if size(bbs,1)<128
+  return;
+else
+bbs=bbs(1:max(128,2*b_num),:);
+
+end
+size(bbs,1)
 
 bbs=sortrows(bbs,-5);
 bbs(:,3)=bbs(:,1)+bbs(:,3);
@@ -28,13 +38,13 @@ weight=[];
 % all=size(bbs,1)
 % turns=ceil(all/2);
 
-all=size(bbs,1)
+all=size(bbs,1);
 turns=ceil(all/5)
 
 for i=1:all
 %     weight=[weight;(64/(8+(i-1)))];
 %     weight=[weight;(all-i)*0.01];
-      weight=[weight;(64/(i+7))];
+      weight=[weight;(64/(i+31))];
 end
 
 
@@ -45,6 +55,13 @@ end
 %         figure(3);
 %         plot(ccol);
 %     end
+% end
+
+% for i=1:26
+%         edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
+%         ccol=sum(edgebox_hx,1);
+%         figure(2);
+%         plot(ccol);
 % end
 
 
@@ -58,14 +75,20 @@ for j=1:5
     end
 end
 
-hx_peak=sum(ccol)/length(ccol)
+% hx_peak=sum(ccol)/length(ccol)
+hx_peak=mean(ccol);
 line_y1=zeros(1,length(ccol))+hx_peak;
 line_y2=zeros(1,length(ccol))+0.7*hx_peak;
-line_y3=zeros(1,length(ccol))+0.5*hx_peak;
+line_y3=zeros(1,length(ccol))+0.32*hx_peak;
+line_y4=zeros(1,length(ccol))+median(ccol(ccol~=0));
+line_y0=zeros(1,length(ccol))+1.2*hx_peak;
+
 hold on
 plot(line_y1,'r');
-plot(line_y2,'r')
-plot(line_y3,'r')
+plot(line_y2,'r');
+plot(line_y3,'r');
+plot(line_y4,'g');
+plot(line_y0,'r');
 hold off
 
 %% 
@@ -74,7 +97,7 @@ hold off
 % %【重要参数3】分割阈值选取；怎样结合：0.2做定位？0.3做分割
 %  max_thresh=0.2*max(max(edgebox_hx));
 
-max_thresh=0.5*(hx_peak/max(ccol))*max(max(edgebox_hx));
+max_thresh=0.32*(hx_peak/max(ccol))*max(max(edgebox_hx));
 % max_thresh=0.5*max(ccol);
 figure(3);
 for x=1:len
@@ -87,7 +110,7 @@ end
 imshow(edgebox_hx);
 
 
-max_thresh=0.7*(hx_peak/max(ccol))*max(max(edgebox_hx));
+max_thresh=0.64*(hx_peak/max(ccol))*max(max(edgebox_hx));
 % max_thresh=0.5*max(ccol);
 figure(4);
 for x=1:len
@@ -113,6 +136,20 @@ for x=1:len
    end
 end    
 imshow(edgebox_hx);
+
+
+max_thresh=1.2*(hx_peak/max(ccol))*max(max(edgebox_hx));
+figure(6);
+for x=1:len
+   for y=1:wid
+       if edgebox_hx(x,y)<max_thresh;
+           edgebox_hx(x,y)=0;
+       end
+   end
+end    
+imshow(edgebox_hx);
+
+
 % 
 % % max_thresh=0.4*max(max(edgebox_hx));
 % max_thresh=0.8*hx_peak;
