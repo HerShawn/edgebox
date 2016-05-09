@@ -20,7 +20,8 @@ b_num=round(0.1*size(bbs,1))
 if size(bbs,1)<128
   return;
 else
-bbs=bbs(1:max(128,2*b_num),:);
+% bbs=bbs(1:max(128,2*b_num),:);
+bbs=bbs(1:min(128,2*b_num),:);
 
 end
 size(bbs,1)
