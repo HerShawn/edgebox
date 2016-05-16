@@ -10,7 +10,8 @@ if ~exist('windowSize')
 end
 
 responses = zeros(1, length(vec));
-vec = vec - thresh;
+%5/11在这里做了更改，为了展现自适应尺度变换
+% vec = vec - thresh;
 for i=1:length(vec)
     % Rs[x,r]    在尺度s下，行r中，判断在哪些横坐标x所在的response值是局部极大值
     % 局部窗口大小是[i-5,i+5]共10个像素，步进为1；除局部极大值外的所有response抑制。
