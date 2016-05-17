@@ -39,13 +39,15 @@ end
 for j=1:1
     for i=max((j-1)*turns,1):min(size(bbs,1),j*turns)
         edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
-        ccol=sum(edgebox_hx,1);
-        island_table(ccol);
+        ccol=sum(edgebox_hx,1);      
         figure(2);
         plot(ccol);
         figure(3);
         imshow(edgebox_hx);
+        island_table(ccol);
     end
+    
+    %在这儿处理global record_tab和cluster_tab；
 end
 
 end

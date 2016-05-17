@@ -11,12 +11,10 @@ for i=2:length(ccol)
     end
 end
 
-% island_tab=zeros(2,length(find(diff_idx>0)))
-% for i=1:length(find(diff_idx>0))
-%     island_tab(1,i)=
-% end
-
 island_front=find(diff_idx>0)
 island_back=find(diff_idx<0)
 island_tab=[island_front;island_back]
+
+record_table(island_tab);
+
 end
