@@ -67,7 +67,7 @@ end
     figure(3);
     hold on
     for i=1:length(ini_cluster)
-          stem(line_seg(1,i),line_seg(2,i),'r');
+          plot(line_seg(1,i),line_seg(2,i),'r');
     end  
     hold off
 end
