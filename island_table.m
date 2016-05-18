@@ -11,9 +11,9 @@ for i=2:length(ccol)
     end
 end
 
-island_front=find(diff_idx>0)
-island_back=find(diff_idx<0)
-island_tab=[island_front;island_back]
+island_front=find(diff_idx>0);
+island_back=find(diff_idx<0);
+island_tab=[island_front;island_back];
 
 record_table(island_tab);
 

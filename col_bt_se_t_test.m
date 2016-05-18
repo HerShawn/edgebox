@@ -54,7 +54,16 @@ for j=1:1
     end    
 end
 %在这儿处理global record_tab和cluster_tab；
-    ini_cluster=cluster_tab( find(record_tab==max(record_tab)),:)
+
+
+%     ini_cluster=cluster_tab( find(record_tab==max(record_tab)),:)
+    if length(find(record_tab==max(record_tab)))==1
+        ini_cluster=cluster_tab( find(record_tab==max(record_tab)),:);
+    else
+        record_idx=find(record_tab==max(record_tab));
+%         ini_cluster=cluster_tab( ceil(length(find(record_tab==max(record_tab)))/2),:);
+        ini_cluster=cluster_tab( record_idx(1,ceil(length(find(record_tab==max(record_tab)))/2)),:);
+    end   
     ini_cluster=ini_cluster(ini_cluster~=0);
 %     figure(2);
 %     plot(ccol);
