@@ -27,7 +27,7 @@ b_num=round(0.1*size(bbs,1))
 % 【1】2016.6.1 待实验确定的参数：太小起不到过滤杂质的作用；
 % 太大会误删文本行，如图69中的programme就被误删了。
 % 应当使其自适应；
-if size(bbs,1)<100
+if size(bbs,1)<128
   return;
 else
     
