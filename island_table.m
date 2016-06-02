@@ -20,7 +20,11 @@ island_back=find(diff_idx<0);
 if length(find(diff_idx>0))>length(find(diff_idx<0))
     island_tab=[island_front;[island_back;length(diff_idx)-1]'];
 elseif length(find(diff_idx>0))<length(find(diff_idx<0))
-    island_tab=[[0;island_front]';island_back];
+    island_tab=[[1;island_front]';island_back];
+    
+%  2016.6.2 debug: island_front和island_back都是空集的情况
+elseif  isempty(find(diff_idx>0))
+    island_tab=[1;length(diff_idx)-1];
 else
     island_tab=[island_front;island_back];
 end
