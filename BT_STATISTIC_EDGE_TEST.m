@@ -112,8 +112,8 @@ for indexImg = 155:155
             bottom=row_table(do_table(i,j),3);
             im=g(top:bottom,1:wid,:);
 %             im=[im;im];
-            figure(1);
-            imshow(im);
+%             figure(1);
+%             imshow(im);
             col_bt_se_t_test(im);            
         end
     end
