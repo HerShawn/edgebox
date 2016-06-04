@@ -61,10 +61,10 @@ end
 for j=1:1
     for i=max((j-1)*turns,1):min(size(bbs,1),j*turns)
         %2016.6.3 显示边缘盒
-        figure(4);
+        figure(1);
         imshow(g);        
         bbGt('showRes',g,[bbs(i,1);bbs(i,2);bbs(i,3)-bbs(i,1);bbs(i,4)-bbs(i,2)]',[bbs(i,1);bbs(i,2);bbs(i,3)-bbs(i,1);bbs(i,4)-bbs(i,2)]');
-        hold on;
+%         hold on;
         %
         edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))=edgebox_hx(bbs(i,2):bbs(i,4),bbs(i,1):bbs(i,3))+weight(i,1);
         %2016.6.3 要做的权值归一化
