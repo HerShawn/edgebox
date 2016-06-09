@@ -30,6 +30,6 @@ else
 end
 %  2016.6.1 debugÍê±Ï 
 
-record_table(island_tab);
+ record_table(island_tab);
 
 end

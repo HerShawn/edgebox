@@ -53,13 +53,20 @@ turns=ceil(all/5)
 % 【3】2016.6.1 待实验确定的参数：
 %权值的选择！ 要实现权值均一化
 for i=1:all
-      weight=[weight;(64/(i+31))];
+      weight=[weight;(64/(i+7))];
 end
+
+left_edge_cluster=zeros(1,wid);
 
 % 【4】2016.6.1 待实验确定的参数：
 %自适应调整turn大小
 for j=1:1
     for i=max((j-1)*turns,1):min(size(bbs,1),j*turns)
+        %2016.6.5 聚集边缘去除离群点
+        figure(4);
+        left_edge_cluster(1,bbs(i,1))=left_edge_cluster(1,bbs(i,1))+1;
+        plot(left_edge_cluster);
+        
         %2016.6.3 显示边缘盒
         figure(1);
         imshow(g);        
@@ -73,11 +80,27 @@ for j=1:1
     
         figure(2);
         plot(ccol);
-        figure(3);
-        imshow(edgebox_hx);
+%         figure(3);
+%         imshow(edgebox_hx);
         island_table(ccol);
     end    
 end
+
+left_edge_cluster2=eli_outliers(left_edge_cluster);
+lc=find(left_edge_cluster2>0);
+cluster_num=length(lc);
+l2=zeros(1,cluster_num);
+for i=1:cluster_num
+    l2(1,i)=size(edgebox_hx,1);
+end
+
+figure(1);
+hold on
+for i=1:cluster_num
+    stem(lc(1,i),l2(1,i),'r');
+end
+hold off
+
 %在这儿处理global record_tab和cluster_tab；
 
 
@@ -99,9 +122,10 @@ end
         line_seg(2,i)=line_len;
     end
     figure(3);
+     imshow(edgebox_hx);
     hold on
     for i=1:length(ini_cluster)
-          stem(line_seg(1,i),line_seg(2,i),'r');
+          stem(line_seg(1,i),line_seg(2,i),'g');
     end  
     hold off
 end
