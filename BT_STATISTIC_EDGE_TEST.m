@@ -114,7 +114,7 @@ for indexImg = 23:23
 %             im=[im;im];
 %             figure(1);
 %             imshow(im);
-            col_bt_se_t_test(im);            
+            col_bt_se_t_test2(im);            
         end
     end
 end

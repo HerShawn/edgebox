@@ -1,6 +1,6 @@
 %% 2016.5.16 Test:
 %1.turn1;2.重复行；3.种子点；4.四线三格+阈值+aspect；5.权值归一化。
-function col_bt_se_t_test(g)
+function col_bt_se_t_test2(g)
 addpath('piotr_toolbox');
 addpath(genpath(pwd));
 %% Parameters for EdgeBox
@@ -41,12 +41,6 @@ bbs=sortrows(bbs,-5);
 bbs(:,3)=bbs(:,1)+bbs(:,3);
 bbs(:,4)=bbs(:,2)+bbs(:,4);
 weight=[];
-
-% bbs1(:,1)=bbs(:,1);
-% bbs1(:,2)=bbs(:,2);
-% bbs1(:,3)=bbs(:,3)-bbs1(:,1);
-% bbs1(:,4)=bbs(:,4)-bbs1(:,1);
-
 all=size(bbs,1);
 turns=ceil(all/5)
 
@@ -133,4 +127,6 @@ hold off
           stem(line_seg(1,i),line_seg(2,i),'g');
     end  
     hold off
+    
+    overall_seg(lc,ini_cluster,ccol);
 end

@@ -9,9 +9,9 @@ function cluster2=eli_outliers(cluster)
         end
     end  
     
-    figure(5);
-    plot(cluster2);
-    
+%     figure(5);
+%     plot(cluster2);
+%     
     
     
 end

@@ -1,6 +1,6 @@
 %% 2016.5.16 Test:
 %1.turn1;2.重复行；3.种子点；4.四线三格+阈值+aspect；5.权值归一化。
-function col_bt_se_t_test(g)
+function col_bt_se_t_test2(g)
 addpath('piotr_toolbox');
 addpath(genpath(pwd));
 %% Parameters for EdgeBox
@@ -41,12 +41,6 @@ bbs=sortrows(bbs,-5);
 bbs(:,3)=bbs(:,1)+bbs(:,3);
 bbs(:,4)=bbs(:,2)+bbs(:,4);
 weight=[];
-
-% bbs1(:,1)=bbs(:,1);
-% bbs1(:,2)=bbs(:,2);
-% bbs1(:,3)=bbs(:,3)-bbs1(:,1);
-% bbs1(:,4)=bbs(:,4)-bbs1(:,1);
-
 all=size(bbs,1);
 turns=ceil(all/5)
 
@@ -63,7 +57,7 @@ left_edge_cluster=zeros(1,wid);
 for j=1:1
     for i=max((j-1)*turns,1):min(size(bbs,1),j*turns)
         %2016.6.5 聚集边缘去除离群点
-        figure(4);
+        figure(2);
         left_edge_cluster(1,bbs(i,1))=left_edge_cluster(1,bbs(i,1))+1;
         plot(left_edge_cluster);
         
@@ -78,8 +72,8 @@ for j=1:1
         ccol=sum(edgebox_hx,1);   
 %         ccol=sum(edgebox_hx,1)/ size(edgebox_hx,1);  
     
-        figure(2);
-        plot(ccol);
+%         figure(2);
+%         plot(ccol);
 %         figure(3);
 %         imshow(edgebox_hx);
         island_table(ccol);
@@ -99,12 +93,12 @@ end
 % 消除右点
 
 
-figure(1);
-hold on
-for i=1:cluster_num
-    stem(lc(1,i),l2(1,i),'r');
-end
-hold off
+% figure(1);
+% hold on
+% for i=1:cluster_num
+%     stem(lc(1,i),l2(1,i),'r');
+% end
+% hold off
 
 %在这儿处理global record_tab和cluster_tab；
 
@@ -126,11 +120,13 @@ hold off
         line_seg(1,i)=ini_cluster(1,i);
         line_seg(2,i)=line_len;
     end
-    figure(3);
-     imshow(edgebox_hx);
-    hold on
-    for i=1:length(ini_cluster)
-          stem(line_seg(1,i),line_seg(2,i),'g');
-    end  
-    hold off
+%     figure(3);
+%      imshow(edgebox_hx);
+%     hold on
+%     for i=1:length(ini_cluster)
+%           stem(line_seg(1,i),line_seg(2,i),'g');
+%     end  
+%     hold off
+    
+    overall_seg(lc,ini_cluster,ccol,edgebox_hx,g);
 end
