@@ -7,6 +7,11 @@ global cluster_tab;
 
 
 tab_idx=size(island_tab,2);
+
+if tab_idx>10
+    tab_idx=10;
+end
+
 record_tab(1,tab_idx)=record_tab(1,tab_idx)+1;
 
 for i=1:tab_idx
